@@ -1,34 +1,35 @@
 ﻿using System;
+using Npgsql;
 
-public class update_db
+namespace koneksi_database.tools
 {
-	public update()
-	{
-        string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=a.1056.A;Database=PBO;";
-        NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-        string updateSql = "UPDATE jualan SET stok_barang = @stok_barang WHERE id_barang = @id_barang";
-        NpgsqlCommand updateCommand = new NpgsqlCommand(updateSql, connection);
-
-        Console.Write("Masukkan Stok Barang : ")
-        updateCommand.Parameters.AddWithValue("@stok_barang", 700);
-
-        Console.Write("Masukkan ID Barang : ")
-        updateCommand.Parameters.AddWithValue("@id_barang", "1");
-
-        try
+    class UpdateData
+    {
+        public static void Execute()
         {
-            connection.Open();
-            int rowsAffected = updateCommand.ExecuteNonQuery();
-            Console.WriteLine($"Updated {rowsAffected} row(s)!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-        finally
-        {
-            connection.Close();
-        }
+            using (var connection = Koneksi.GetConnection())
+            {
+                Console.Write("ID Barang yang ingin diupdate: ");
+                string id = Console.ReadLine();
+                Console.Write("Stok Baru: ");
+                int stok = int.Parse(Console.ReadLine());
 
+                string updateSql = "UPDATE jualan SET stok_barang = @stok_barang WHERE id_barang = @id_barang";
+                var command = new NpgsqlCommand(updateSql, connection);
+                command.Parameters.AddWithValue("@stok_barang", stok);
+                command.Parameters.AddWithValue("@id_barang", id);
+
+                try
+                {
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    Console.WriteLine($"Updated {result} row(s).");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
+        }
     }
 }
