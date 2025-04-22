@@ -13,8 +13,9 @@ namespace koneksi_database
                 Console.WriteLine("1. Insert Data");
                 Console.WriteLine("2. Delete Data");
                 Console.WriteLine("3. Update Data");
-                Console.WriteLine("4. Exit");
-                Console.Write("Pilih menu (1-4): ");
+                Console.WriteLine("4. Tampilkan Table")
+                Console.WriteLine("5. Exit");
+                Console.Write("Pilih menu (1-5): ");
                 string pilihan = Console.ReadLine();
 
                 switch (pilihan)
@@ -29,6 +30,9 @@ namespace koneksi_database
                         UpdateData.Execute();
                         break;
                     case "4":
+                        TampilkanData.Execute();
+                        break;
+                    case "5":
                         return;
                     default:
                         Console.WriteLine("Pilihan tidak valid.");
