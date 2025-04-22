@@ -1,7 +1,7 @@
 ﻿using System;
 using Npgsql;
 
-namespace koneksi_database.Testing
+namespace koneksi_database.fitur
 {
     class UpdateData
     {

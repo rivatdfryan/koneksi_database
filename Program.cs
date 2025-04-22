@@ -1,6 +1,7 @@
-﻿using System;
+﻿using koneksi_database.fitur;
+using System;
 
-namespace koneksi_database.Testing
+namespace koneksi_database
 {
     class Program
     {
