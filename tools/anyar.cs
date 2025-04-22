@@ -7,7 +7,7 @@ using Npgsql;
 
 namespace koneksi_database.tools
 {
-    class anyar
+    class koneksi_baru
     {
         static string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=a.1056.A;Database=PBO;";
 
