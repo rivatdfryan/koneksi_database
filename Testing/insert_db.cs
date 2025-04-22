@@ -1,7 +1,7 @@
 ﻿using System;
 using Npgsql;
 
-namespace koneksi_database.tools
+namespace koneksi_database.Testing
 {
     class InsertData
     {
@@ -34,7 +34,7 @@ namespace koneksi_database.tools
                 {
                     connection.Open();
                     int result = command.ExecuteNonQuery();
-                    Console.WriteLine($"Inserted {result} row(s).");
+                    Console.WriteLine($"Barang {nama} Berhasil ditambahkan");
                 }
                 catch (Exception ex)
                 {

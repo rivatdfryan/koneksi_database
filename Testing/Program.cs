@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace koneksi_database.tools
+namespace koneksi_database.Testing
 {
     class Program
     {
