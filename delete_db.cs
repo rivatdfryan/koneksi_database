@@ -1,32 +1,32 @@
 ﻿using System;
+using Npgsql;
 
-public class delete_db
+namespace koneksi_database.tools
 {
-	public delete()
-	{
-        string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=a.1056.A;Database=PBO;";
-        NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-
-        string deleteSql = "DELETE FROM jualan WHERE id_barang = @id_barang";
-        NpgsqlCommand deleteCommand = new NpgsqlCommand(deleteSql, connection);
-
-        Console.Write("Masukkan ID Barang");
-        int id_barang = Console.ReadLine();
-        deleteCommand.Parameters.AddWithValue("@id_barang", id_barang);
-
-        try
+    class DeleteData
+    {
+        public static void Execute()
         {
-            connection.Open();
-            int rowsAffected = deleteCommand.ExecuteNonQuery();
-            Console.WriteLine($"Deleted {rowsAffected} row(s)!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-        finally
-        {
-            connection.Close();
+            using (var connection = Koneksi.GetConnection())
+            {
+                Console.Write("ID Barang yang ingin dihapus: ");
+                string id = Console.ReadLine();
+
+                string deleteSql = "DELETE FROM jualan WHERE id_barang = @id_barang";
+                var command = new NpgsqlCommand(deleteSql, connection);
+                command.Parameters.AddWithValue("@id_barang", id);
+
+                try
+                {
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    Console.WriteLine($"Deleted {result} row(s).");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
         }
     }
 }

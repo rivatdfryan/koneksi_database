@@ -1,43 +1,46 @@
 ﻿using System;
+using Npgsql;
 
-public class insert_db
+namespace koneksi_database.tools
 {
-	public insert()
-	{
-        string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=a.1056.A;Database=PBO;";
-        NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-        string insertSql = "INSERT INTO jualan (id_barang,nama_barang,stok_barang,jenis_barang,harga_barang) VALUES (@id_barang,@nama_barang,@stok_barang,@jenis_barang,@harga_barang)";
-        NpgsqlCommand insertCommand = new NpgsqlCommand(insertSql, connection);
+    class InsertData
+    {
+        public static void Execute()
+        {
+            using (var connection = Koneksi.GetConnection())
+            {
+                string insertSql = "INSERT INTO jualan (id_barang,nama_barang,stok_barang,jenis_barang,harga_barang) " +
+                                   "VALUES (@id_barang,@nama_barang,@stok_barang,@jenis_barang,@harga_barang)";
+                var command = new NpgsqlCommand(insertSql, connection);
 
-        Console.Write("Masukkan id barang : ")
-        string tambah_barang = Console.ReadLine();
-        Console.Write("Masukkan Nama Barang : ")
-        string nama_barang = Console.ReadLine();
-        Console.Write("Masukkan Stok Barang : ")
-        string stok_barang = Console.ReadLine();
-        Console.Write("Masukkan Jenis Barang : ")
-        int jenis_barang = Console.ReadLine();
-        Console.Write("Masukkan Harga Barang")
-        int harga_barang = Console.ReadLine();
+                Console.Write("ID Barang: ");
+                string id = Console.ReadLine();
+                Console.Write("Nama Barang: ");
+                string nama = Console.ReadLine();
+                Console.Write("Stok Barang: ");
+                int stok = int.Parse(Console.ReadLine());
+                Console.Write("Jenis Barang: ");
+                string jenis = Console.ReadLine();
+                Console.Write("Harga Barang: ");
+                int harga = int.Parse(Console.ReadLine());
 
-        insertCommand.Parameters.AddWithValue("@id_barang", tambah_barang);
-        insertCommand.Parameters.AddWithValue("@nama_barang", nama_barang);
-        insertCommand.Parameters.AddWithValue("@stok_barang", stok_barang);
-        insertCommand.Parameters.AddWithValue("@jenis_barang", jenis_barang);
-        insertCommand.Parameters.AddWithValue("@harga_barang", harga_barang);
-        try
-        {
-            connection.Open();
-            int rowsAffected = insertCommand.ExecuteNonQuery();
-            Console.WriteLine($"Inserted {rowsAffected} row(s)!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-        finally
-        {
-            connection.Close();
+                command.Parameters.AddWithValue("@id_barang", id);
+                command.Parameters.AddWithValue("@nama_barang", nama);
+                command.Parameters.AddWithValue("@stok_barang", stok);
+                command.Parameters.AddWithValue("@jenis_barang", jenis);
+                command.Parameters.AddWithValue("@harga_barang", harga);
+
+                try
+                {
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    Console.WriteLine($"Inserted {result} row(s).");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
         }
     }
 }
